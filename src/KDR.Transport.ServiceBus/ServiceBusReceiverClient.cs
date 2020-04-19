@@ -22,10 +22,12 @@ namespace KDR.Transport.ServiceBus
       _options = options;
     }
 
-    public event EventHandler<TransportMessage> OnMessageReceived;
+    public Func<object, TransportMessage, Task> OnMessageReceive { get; set; }
 
     public async Task StartListeningAsync(CancellationToken cancellationToken)
     {
+      Check.NotNull(OnMessageReceive, nameof(OnMessageReceive));
+
       await ConnectAsync();
 
       _messageReceiver.OnMessageAsync(
@@ -72,7 +74,7 @@ namespace KDR.Transport.ServiceBus
       _messageReceiver = await messagingFactory.CreateMessageReceiverAsync(_options.EntityPath, ReceiveMode.PeekLock);
     }
 
-    private Task OnMessageReceivedAsync(BrokeredMessage brokeredMessage)
+    private async Task OnMessageReceivedAsync(BrokeredMessage brokeredMessage)
     {
       Check.NotNull(brokeredMessage, nameof(BrokeredMessage));
 
@@ -82,8 +84,7 @@ namespace KDR.Transport.ServiceBus
       // ReSharper disable once PossibleNullReferenceException
       var transportMessage = new TransportMessage(brokeredMessage.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString()), body);
 
-      OnMessageReceived?.Invoke(brokeredMessage.LockToken, transportMessage);
-      return Task.CompletedTask;
+      await OnMessageReceive.Invoke(brokeredMessage.LockToken, transportMessage);
     }
   }
 }

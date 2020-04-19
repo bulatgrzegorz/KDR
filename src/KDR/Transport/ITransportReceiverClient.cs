@@ -6,7 +6,8 @@ namespace KDR.Transport
 {
   public interface ITransportReceiverClient
   {
-    event EventHandler<TransportMessage> OnMessageReceived;
+    //Sender, TransportMessage => Task
+    Func<object, TransportMessage, Task> OnMessageReceive { get; set; }
 
     Task StartListeningAsync(CancellationToken cancellationToken);
 

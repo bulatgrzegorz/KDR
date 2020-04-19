@@ -2,7 +2,7 @@
 
 namespace KDR.Persistence
 {
-  public class DomainMessage
+  public class DbMessage
   {
     public int Id { get; set; }
 
