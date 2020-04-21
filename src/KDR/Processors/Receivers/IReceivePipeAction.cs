@@ -1,10 +1,10 @@
-﻿using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace KDR.Processors.Receivers
 {
-  public interface IReceivePipeAction<in TContext> where TContext : IReceivePipeContext
+  public interface IReceivePipeAction : IPipeAction
   {
-    Task ExecuteAsync(TContext ctx, CancellationToken cancellationToken);
+    Task ExecuteAsync(ReceivePipeActionContext ctx, Func<Task> next);
   }
 }

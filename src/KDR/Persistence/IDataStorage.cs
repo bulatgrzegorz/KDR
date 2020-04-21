@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using KDR.Messages;
 
 namespace KDR.Persistence
 {
@@ -6,6 +7,7 @@ namespace KDR.Persistence
   {
     Task StoreMessageToSendAsync(DbMessage message);
 
-    Task<bool> MarkMessageAsSentAsync();
+    //Returns true if storing value finished successfully
+    Task<bool> StoreReceivedMessageAsync(Message message);
   }
 }

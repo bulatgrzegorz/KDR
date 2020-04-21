@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using KDR.Abstractions.Handlers;
+using KDR.Abstractions.Messages;
 using KDR.Messages;
+using KDR.Serialization;
 using KDR.Transport;
 using KDR.Transport.Factories;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,12 +20,18 @@ namespace KDR.Processors.Receivers
     private readonly ICollection<ITransportReceiverClient> _receiverClients;
     private readonly IDictionary<string, Type> _handlers;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ISerializer _serializer;
 
-    public ReceiversManager(ICollection<string> entities, ITransportReceiverClientFactory transportReceiverClientFactory, IServiceProvider serviceProvider)
+    public ReceiversManager(
+      ICollection<string> entities,
+      ITransportReceiverClientFactory transportReceiverClientFactory,
+      IServiceProvider serviceProvider,
+      ISerializer serializer)
     {
       _entities = entities;
       _transportReceiverClientFactory = transportReceiverClientFactory;
       _serviceProvider = serviceProvider;
+      _serializer = serializer;
       _receiverClients = new List<ITransportReceiverClient>();
     }
 
@@ -41,7 +48,7 @@ namespace KDR.Processors.Receivers
       }
     }
 
-    private Task ReceiverOnOnMessageReceived(object sender, TransportMessage transportMessage)
+    private async Task ReceiverOnOnMessageReceived(object sender, TransportMessage transportMessage)
     {
       var handlerType = _handlers[transportMessage.Headers[MessageHeaders.EventType]];
 
@@ -51,7 +58,9 @@ namespace KDR.Processors.Receivers
         throw new NotSupportedException();
       }
 
-      messageHandler.HandleAsync(tra)
+      var message = await _serializer.DeserializeAsync(transportMessage);
+
+      await messageHandler.HandleAsync((IMessage)message.Body);
     }
   }
 }

@@ -1,20 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using KDR.Messages;
 using KDR.Transport;
-using Newtonsoft.Json;
 
 namespace KDR.Serialization
 {
-  public class JsonSerializer : ISerializer
+  public class XmlSerializer : ISerializer
   {
     private static readonly Encoding DefaultEncoding = Encoding.UTF8;
-
-    private static readonly JsonSerializerSettings DefaultSettings = new JsonSerializerSettings()
-    {
-      TypeNameHandling = TypeNameHandling.All
-    };
 
     public ValueTask<Message> DeserializeAsync(TransportMessage transportMessage)
     {
@@ -28,17 +23,20 @@ namespace KDR.Serialization
 
     private TransportMessage Serialize(Message message)
     {
-      var body = JsonConvert.SerializeObject(message.Body, DefaultSettings);
-      var bodyBytes = DefaultEncoding.GetBytes(body);
+      var dataContractSerializer = new System.Runtime.Serialization.DataContractSerializer(message.Body.GetType());
 
-      //TODO: Powinno zostać wyciągnięte
       var headers = new Dictionary<string, string>(message.Headers)
       {
         [MessageHeaders.ContentType] = ContentTypes.JsonUtf8ContentType,
         [MessageHeaders.EventType] = MessageTypeConverters.GetTypeName(message.Body.GetType())
       };
 
-      return new TransportMessage(headers, bodyBytes);
+      using (var memoryStream = new MemoryStream())
+      {
+        dataContractSerializer.WriteObject(memoryStream, message.Body);
+
+        return new TransportMessage(headers, memoryStream.ToArray());
+      }
     }
 
     private Message Deserialize(TransportMessage message)
@@ -46,13 +44,16 @@ namespace KDR.Serialization
       var messageTypeName = message.Headers[MessageHeaders.EventType];
       var messageType = MessageTypeConverters.GetNameType(messageTypeName);
 
-      var bodyString = DefaultEncoding.GetString(message.Body);
+      var dataContractSerializer = new System.Runtime.Serialization.DataContractSerializer(messageType);
 
-      return new Message()
+      using (var memoryStream = new MemoryStream(message.Body))
       {
-        Body = JsonConvert.DeserializeObject(bodyString, messageType),
-        Headers = new Dictionary<string, string>(message.Headers)
-      };
+        return new Message()
+        {
+          Body = dataContractSerializer.ReadObject(memoryStream),
+          Headers = new Dictionary<string, string>(message.Headers)
+        };
+      }
     }
   }
 }

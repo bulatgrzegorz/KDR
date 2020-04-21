@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using KDR.Messages;
 using KDR.Utilities;
 using Microsoft.ServiceBus.Messaging;
 
@@ -22,6 +23,7 @@ namespace KDR.Transport.ServiceBus
       _options = options;
     }
 
+    ////TODO: Wyciągnąć na zewnątrz, moze przekazywać jako parematr, wtedy będziemy mogli wykorzystywać implementacje klienta w innych miejscach
     public Func<object, TransportMessage, Task> OnMessageReceive { get; set; }
 
     public async Task StartListeningAsync(CancellationToken cancellationToken)
@@ -82,7 +84,15 @@ namespace KDR.Transport.ServiceBus
       var body = ReadFully(brokeredMessageBodyStream);
 
       // ReSharper disable once PossibleNullReferenceException
-      var transportMessage = new TransportMessage(brokeredMessage.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString()), body);
+      var headers = brokeredMessage.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString());
+      if (!headers.ContainsKey(MessageHeaders.ContentType))
+      {
+        headers[MessageHeaders.ContentType] = brokeredMessage.ContentType;
+      }
+
+      var transportMessage = new TransportMessage(
+        headers,
+        body);
 
       await OnMessageReceive.Invoke(brokeredMessage.LockToken, transportMessage);
     }
