@@ -7,7 +7,7 @@ using KDR.Transport;
 
 namespace KDR.Serialization
 {
-  public class XmlSerializer : ISerializer
+    public class XmlSerializer : ISerializer
   {
     private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 

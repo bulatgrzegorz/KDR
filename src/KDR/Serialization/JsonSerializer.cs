@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace KDR.Serialization
 {
-  public class JsonSerializer : ISerializer
+    public class JsonSerializer : ISerializer
   {
     private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 

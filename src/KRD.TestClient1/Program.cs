@@ -48,12 +48,12 @@ namespace KRD.TestClient1
       //var se = JsonConvert.SerializeObject(t);
       //var ms = new MemoryStream(Encoding.UTF8.GetBytes(se));
 
-      s.OnMessageReceived += (sender, message) =>
-                             {
-                               Console.WriteLine(ReadJson<TestEvent>(message.Body));
+      // s.OnMessageReceived += (sender, message) =>
+      //                        {
+      //                          Console.WriteLine(ReadJson<TestEvent>(message.Body));
 
-                               s.CommitAsync(sender, CancellationToken.None).GetAwaiter().GetResult();
-                             };
+      //                          s.CommitAsync(sender, CancellationToken.None).GetAwaiter().GetResult();
+      //                        };
       s.StartListeningAsync(CancellationToken.None).GetAwaiter().GetResult();
 
       while (true)

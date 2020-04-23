@@ -5,6 +5,6 @@ namespace KDR.Processors.Receivers
 {
   public interface IReceivePipeAction : IPipeAction
   {
-    Task ExecuteAsync(ReceivePipeActionContext ctx, Func<Task> next);
+    Task ExecuteAsync(ReceivePipelineContext ctx, Func<Task> next);
   }
 }

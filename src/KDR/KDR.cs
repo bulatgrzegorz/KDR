@@ -12,7 +12,7 @@ namespace KDR
 
     public static void CreateEventBus(this IServiceCollection services)
     {
-      var
+
     }
 
     private static void InitializeCore(this IServiceCollection services)
@@ -23,6 +23,7 @@ namespace KDR
       }
 
       RegisterSerializerModule(services);
+      RegisterTransportModule(services);
     }
 
     private static void RegisterTransportModule(IServiceCollection services)
@@ -34,8 +35,13 @@ namespace KDR
       services.TryAddSingleton<IReceivePipeline>(
         sp => new ReceivePipeline(null)
           .AddAction(sp.GetRequiredService<TracePipeAction>())
+          .AddAction(sp.GetRequiredService<SerializationPipeAction>())
           .AddAction(sp.GetRequiredService<TransactionPipeAction>())
-          .AddAction(sp.GetRequiredService<PersistenceMessagePipeAction>()));
+          .AddAction(sp.GetRequiredService<PersistenceMessagePipeAction>())
+          .AddAction(sp.GetRequiredService<HandlerInvokerPipeAction>())
+          );
+
+      services.TryAddSingleton<IPipelineInvoker, PipelineInvoker>();
     }
 
     private static void RegisterSerializerModule(IServiceCollection services)

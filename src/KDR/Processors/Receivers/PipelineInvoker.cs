@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KDR.Transport;
 
 namespace KDR.Processors.Receivers
 {
-  public class PipelineInvoker //: IPipelineInvoker
+  public class PipelineInvoker : IPipelineInvoker
   {
-    private readonly Func<ReceivePipeActionContext, Task> _pipelineInvoke;
+    private readonly Func<ReceivePipelineContext, Task> _pipelineInvoke;
 
     public PipelineInvoker(IReceivePipeline pipeline)
     {
       var pipelineActions = pipeline.Actions.ToArray();
 
-      Task ProcessIncoming(ReceivePipeActionContext context)
+      Task ProcessIncoming(ReceivePipelineContext context)
       {
         Task InvokerFunction(int index)
         {
@@ -32,9 +33,17 @@ namespace KDR.Processors.Receivers
       _pipelineInvoke = ProcessIncoming;
     }
 
-    public Task InvokeAsync()
+    public Task InvokeAsync(ReceivePipelineContext context)
     {
-      return _pipelineInvoke(new ReceivePipeActionContext());
+      return _pipelineInvoke(context);
+    }
+
+    public Task InvokeAsync(TransportMessage message)
+    {
+      var context = new ReceivePipelineContext();
+      context.Save<TransportMessage>(message);
+      
+      return _pipelineInvoke(context);
     }
   }
 }

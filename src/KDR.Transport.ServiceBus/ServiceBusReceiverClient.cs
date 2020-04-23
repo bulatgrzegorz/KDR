@@ -10,7 +10,7 @@ using Microsoft.ServiceBus.Messaging;
 namespace KDR.Transport.ServiceBus
 {
   public class ServiceBusReceiverClient : ITransportReceiverClient
-  {
+    {
     private readonly ServiceBusTransportOptions _options;
     private MessageReceiver _messageReceiver;
 
@@ -24,7 +24,7 @@ namespace KDR.Transport.ServiceBus
     }
 
     ////TODO: Wyciągnąć na zewnątrz, moze przekazywać jako parematr, wtedy będziemy mogli wykorzystywać implementacje klienta w innych miejscach
-    public Func<object, TransportMessage, Task> OnMessageReceive { get; set; }
+    public Func<object, TransportMessage, Func<object, Task>, Task> OnMessageReceive { get; set; }
 
     public async Task StartListeningAsync(CancellationToken cancellationToken)
     {
@@ -94,7 +94,7 @@ namespace KDR.Transport.ServiceBus
         headers,
         body);
 
-      await OnMessageReceive.Invoke(brokeredMessage.LockToken, transportMessage);
+      await OnMessageReceive.Invoke(brokeredMessage.LockToken, transportMessage, x => CommitAsync(x, CancellationToken.None));
     }
   }
 }

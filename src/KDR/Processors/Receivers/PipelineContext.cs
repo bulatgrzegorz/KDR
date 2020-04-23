@@ -2,7 +2,7 @@
 
 namespace KDR.Processors.Receivers
 {
-  public abstract class StepContext
+  public abstract class PipelineContext
   {
     private readonly ConcurrentDictionary<string, object> _items = new ConcurrentDictionary<string, object>();
 
@@ -16,13 +16,13 @@ namespace KDR.Processors.Receivers
       return Load<T>(typeof(T).FullName);
     }
 
-    private T Save<T>(string key, T instance)
+    public T Save<T>(string key, T instance)
     {
       _items.AddOrUpdate(key, instance, (s, o) => instance);
       return instance;
     }
 
-    private T Load<T>(string key)
+    public T Load<T>(string key)
     {
       return _items.TryGetValue(key, out var instance)
                ? (T)instance

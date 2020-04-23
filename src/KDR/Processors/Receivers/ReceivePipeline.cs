@@ -14,6 +14,8 @@ namespace KDR.Processors.Receivers
     public ReceivePipeline AddAction(IReceivePipeAction action)
     {
       Actions.Add(action);
+
+      return this;
     }
   }
 }

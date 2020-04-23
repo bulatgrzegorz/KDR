@@ -6,7 +6,7 @@ namespace KDR.Processors.Receivers.Actions
 {
   public class TracePipeAction : IReceivePipeAction
   {
-    public async Task ExecuteAsync(ReceivePipeActionContext ctx, Func<Task> next)
+    public async Task ExecuteAsync(ReceivePipelineContext ctx, Func<Task> next)
     {
       var stopwatch = new Stopwatch();
       stopwatch.Start();
