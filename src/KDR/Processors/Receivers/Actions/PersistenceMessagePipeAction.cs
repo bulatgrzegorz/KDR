@@ -26,12 +26,12 @@ namespace KDR.Processors.Receivers.Actions
       if(Transaction.Current != null)
       {
         var commitAction = ctx.Load<Func<Task>>(ReceivePipelineContext.CommitMessageAction);
-        Transaction.Current.TransactionCompleted += (sender, args) => 
-        {
-          Transaction.Current.en
-          if(args.Transaction.TransactionInformation.)
-          commitAction()
-        }
+        // Transaction.Current.TransactionCompleted += (sender, args) => 
+        // {
+        //   Transaction.Current.en
+        //   if(args.Transaction.TransactionInformation.)
+        //   commitAction()
+        // }
       }
 
       await next();
