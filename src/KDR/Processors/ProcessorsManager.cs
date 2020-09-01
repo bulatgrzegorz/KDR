@@ -27,6 +27,7 @@ namespace KDR.Processors
     {
       _processingContext = new ProcessingContext(_cancellationTokenSource.Token);
 
+      //TODO: to chyba jest średnio dobrze? nie powinny aby iść jeden po drugim?
       var processorsTask = _processors.Select(x => x.ProcessAsync(_processingContext));
       _task = Task.WhenAll(processorsTask);
 

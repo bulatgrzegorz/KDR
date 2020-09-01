@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KDR.Transport.Api\KDR.Transport.Api.csproj" />
+  </ItemGroup>
 </Project>

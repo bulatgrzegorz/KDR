@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using KDR.Processors.Outgoing;
 using KDR.Transport;
+using KDR.Transport.Api;
 
 namespace KDR.Processors.Receivers
 {
@@ -8,5 +10,7 @@ namespace KDR.Processors.Receivers
     Task InvokeAsync(TransportMessage message);
 
     Task InvokeAsync(ReceivePipelineContext context);
+
+    Task InvokeAsync(OutgoingPipelineContext context);
   }
 }

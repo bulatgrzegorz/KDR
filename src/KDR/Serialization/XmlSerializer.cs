@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using KDR.Messages;
-using KDR.Transport;
+using KDR.Transport.Api;
 
 namespace KDR.Serialization
 {

@@ -1,5 +1,6 @@
 ﻿using KDR.Messages;
 using KDR.Serialization;
+using KDR.Transport.Api;
 
 namespace KDR.Transport.Extensions
 {

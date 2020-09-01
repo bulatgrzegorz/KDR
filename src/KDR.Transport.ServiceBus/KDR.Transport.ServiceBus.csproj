@@ -25,5 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KDR\KDR.csproj" />
+    <ProjectReference Include="..\KDR.Transport.Api\KDR.Transport.Api.csproj" />
   </ItemGroup>
 </Project>

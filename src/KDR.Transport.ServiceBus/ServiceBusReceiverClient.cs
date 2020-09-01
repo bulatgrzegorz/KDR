@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using KDR.Messages;
+using KDR.Transport.Api;
 using KDR.Utilities;
 using Microsoft.ServiceBus.Messaging;
 
@@ -50,7 +51,7 @@ namespace KDR.Transport.ServiceBus
     {
       if (!Guid.TryParse(sender?.ToString(), out var senderGuid))
       {
-        throw new ArgumentException();
+        throw new ArgumentException($"{nameof(sender)} object should be guild type", nameof(sender));
       }
 
       return _messageReceiver.CompleteAsync(senderGuid);

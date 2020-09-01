@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KDR.Persistence
+namespace KDR.Persistence.Api
 {
   public class DbMessage
   {

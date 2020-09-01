@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using KDR.Persistence.Api;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KDR.Persistence.InMemory
 {

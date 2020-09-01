@@ -7,7 +7,7 @@ namespace KDR.Persistence.Api
   {
     Task StoreMessageToSendAsync(DbMessage message);
 
-    //Returns true if storing value finished successfully
-    Task<bool> StoreReceivedMessageAsync(object body, IDictionary<string, string> headers);
+    //Returns id of stored message. TODO: When null failed? 
+    Task<int?> StoreReceivedMessageAsync(ReceivedDbMessage message);
   }
 }

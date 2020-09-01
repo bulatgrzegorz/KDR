@@ -2,8 +2,8 @@
 
 namespace KDR.Processors.Receivers
 {
-  public interface IReceivePipeline
-  {
-    ICollection<IReceivePipeAction> Actions { get; }
-  }
+    public interface IReceivePipeline
+    {
+        ICollection<IReceivePipeAction> Actions { get; }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace KDR.Processors
 {
-  public class DefaultDispatcher
+  public interface IPipeAction
   {
   }
 }

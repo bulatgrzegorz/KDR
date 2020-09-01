@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace KDR.Processors.Receivers
+namespace KDR.Processors
 {
   public abstract class PipelineContext
   {

@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KDR\KDR.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
+  </ItemGroup>  
+
+  <ItemGroup>
+    <ProjectReference Include="..\KDR.Persistence.Api\KDR.Persistence.Api.csproj" />
   </ItemGroup>
 
 </Project>

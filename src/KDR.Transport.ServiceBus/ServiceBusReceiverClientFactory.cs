@@ -1,4 +1,5 @@
-﻿using KDR.Transport.Factories;
+﻿using KDR.Transport.Api;
+using KDR.Transport.Api.Factories;
 
 namespace KDR.Transport.ServiceBus
 {

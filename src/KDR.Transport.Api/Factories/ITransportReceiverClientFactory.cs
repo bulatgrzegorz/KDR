@@ -1,4 +1,4 @@
-﻿namespace KDR.Transport.Factories
+﻿namespace KDR.Transport.Api.Factories
 {
   public interface ITransportReceiverClientFactory
   {

@@ -9,6 +9,7 @@ namespace KDR.Processors.Receivers.Actions
 {
     public class HandlerInvokerPipeAction : IReceivePipeAction
     {
+        //TODO: może zamiast tego powinniśmy przekazywać IScopeCreator, który tworzy scope z service providerem
         private readonly IServiceProvider _serviceProvider;
 
         public HandlerInvokerPipeAction(IServiceProvider serviceProvider)
@@ -23,9 +24,13 @@ namespace KDR.Processors.Receivers.Actions
 
             var handlerType = MessageHandlersMapper.GetHandler(messageType);
 
-            var handler = (IMessageHandler)_serviceProvider.GetRequiredService(handlerType);
+            //TODO: może ten scope powinien się na równi z transakcją dziać, nawet by pasowało
+            using(var scope = _serviceProvider.CreateScope())
+            {
+                var handler = (IMessageHandler)scope.ServiceProvider.GetRequiredService(handlerType);
 
-            await handler.HandleAsync((IMessage)ctx.Load<Message>().Body);
+                await handler.HandleAsync((IMessage)ctx.Load<Message>().Body);
+            }
 
             await next();
         }

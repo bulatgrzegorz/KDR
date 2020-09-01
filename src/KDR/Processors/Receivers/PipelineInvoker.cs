@@ -1,49 +1,79 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KDR.Processors.Outgoing;
 using KDR.Transport;
+using KDR.Transport.Api;
 
 namespace KDR.Processors.Receivers
 {
-  public class PipelineInvoker : IPipelineInvoker
-  {
-    private readonly Func<ReceivePipelineContext, Task> _pipelineInvoke;
-
-    public PipelineInvoker(IReceivePipeline pipeline)
+    //TODO: Trzeba posprzątać
+    public class PipelineInvoker : IPipelineInvoker
     {
-      var pipelineActions = pipeline.Actions.ToArray();
+        private readonly Func<ReceivePipelineContext, Task> _receivePipelineInvoke;
+        private readonly Func<OutgoingPipelineContext, Task> _outgoingPipelineInvoke;
 
-      Task ProcessIncoming(ReceivePipelineContext context)
-      {
-        Task InvokerFunction(int index)
+        public PipelineInvoker(IReceivePipeline receivePipeline, IOutgoingPipeline outgoingPipeline)
         {
-          if (index == pipelineActions.Length)
-          {
-            return Task.CompletedTask;
-          }
+            var receivePipelineActions = receivePipeline.Actions.ToArray();
 
-          Task InvokeNext() => InvokerFunction(index + 1);
+            Task ProcessIncoming(ReceivePipelineContext context)
+            {
+                Task InvokerFunction(int index)
+                {
+                    if (index == receivePipelineActions.Length)
+                    {
+                        return Task.CompletedTask;
+                    }
 
-          return pipelineActions[index].ExecuteAsync(context, InvokeNext);
+                    Task InvokeNext() => InvokerFunction(index + 1);
+
+                    return receivePipelineActions[index].ExecuteAsync(context, InvokeNext);
+                }
+
+                return InvokerFunction(0);
+            }
+
+            _receivePipelineInvoke = ProcessIncoming;
+
+            var outgoingPipelineActions = outgoingPipeline.Actions.ToArray();
+
+            Task ProcessIncomingO(OutgoingPipelineContext context)
+            {
+                Task InvokerFunction(int index)
+                {
+                    if (index == receivePipelineActions.Length)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    Task InvokeNext() => InvokerFunction(index + 1);
+
+                    return outgoingPipelineActions[index].ExecuteAsync(context, InvokeNext);
+                }
+
+                return InvokerFunction(0);
+            }
+
+            _outgoingPipelineInvoke = ProcessIncomingO;
         }
 
-        return InvokerFunction(0);
-      }
+        public Task InvokeAsync(ReceivePipelineContext context)
+        {
+            return _receivePipelineInvoke(context);
+        }
 
-      _pipelineInvoke = ProcessIncoming;
-    }
+        public Task InvokeAsync(TransportMessage message)
+        {
+            var context = new ReceivePipelineContext();
+            context.Save<TransportMessage>(message);
 
-    public Task InvokeAsync(ReceivePipelineContext context)
-    {
-      return _pipelineInvoke(context);
-    }
+            return _receivePipelineInvoke(context);
+        }
 
-    public Task InvokeAsync(TransportMessage message)
-    {
-      var context = new ReceivePipelineContext();
-      context.Save<TransportMessage>(message);
-      
-      return _pipelineInvoke(context);
+        public Task InvokeAsync(OutgoingPipelineContext context)
+        {
+            return _outgoingPipelineInvoke(context);
+        }
     }
-  }
 }

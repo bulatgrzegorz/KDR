@@ -7,8 +7,8 @@ using KDR.Abstractions.Messages;
 using KDR.Messages;
 using KDR.Serialization;
 using KDR.Transport;
-using KDR.Transport.Factories;
-using Microsoft.Extensions.DependencyInjection;
+using KDR.Transport.Api;
+using KDR.Transport.Api.Factories;
 
 namespace KDR.Processors.Receivers
 {
