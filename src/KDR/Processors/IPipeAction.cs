@@ -1,6 +1,10 @@
-﻿namespace KDR.Processors
+﻿using System;
+using System.Threading.Tasks;
+
+namespace KDR.Processors
 {
-  public interface IPipeAction
+  public interface IPipeAction<TPipeContext>
   {
+    Task ExecuteAsync(TPipeContext ctx, Func<Task> next);
   }
 }

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace KDR.Processors.Outgoing
 {
-    public interface IOutgoingPipeAction : IPipeAction
+    public interface IOutgoingPipeAction : IPipeAction<OutgoingPipelineContext>
     {
-         Task ExecuteAsync(OutgoingPipelineContext ctx, Func<Task> next);
+        new Task ExecuteAsync(OutgoingPipelineContext ctx, Func<Task> next);
     }
 }

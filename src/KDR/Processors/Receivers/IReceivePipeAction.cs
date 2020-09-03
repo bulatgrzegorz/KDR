@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace KDR.Processors.Receivers
 {
-  public interface IReceivePipeAction : IPipeAction
+  public interface IReceivePipeAction : IPipeAction<ReceivePipelineContext>
   {
-    Task ExecuteAsync(ReceivePipelineContext ctx, Func<Task> next);
+        new Task ExecuteAsync(ReceivePipelineContext ctx, Func<Task> next);
   }
 }

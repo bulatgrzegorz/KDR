@@ -1,5 +1,6 @@
 ﻿using System;
 using KDR.Persistence.Api;
+using KDR.Processors.Dispatchers;
 using KDR.Processors.Outgoing;
 using KDR.Processors.Outgoing.Dispatchers;
 using KDR.Processors.Receivers;
@@ -33,6 +34,8 @@ namespace KDR
             RegisterDataStorage(services);
 
             services.TryAddSingleton<IEventBus, EventBus>();
+
+
         }
 
         private static void RegisterDataStorage(IServiceCollection services)
@@ -61,6 +64,7 @@ namespace KDR
 
 
             services.TryAddSingleton<IDispatcher, DefaultDispatcher>();
+            services.TryAddSingleton<InMemorySendingDispatcher>();
             services.TryAddSingleton<Processors.Outgoing.Actions.PersistenceMessagePipeAction>();
             services.TryAddSingleton<Processors.Outgoing.Actions.SerializationPipeAction>();
 

@@ -1,5 +1,6 @@
 ﻿ using System.Threading.Tasks;
 using System.Threading.Channels;
+using System.Threading;
 
 namespace KDR.Processors.Outgoing.Dispatchers
 {
@@ -24,6 +25,16 @@ namespace KDR.Processors.Outgoing.Dispatchers
         public ValueTask EnqueueToPublishAsync(object message)
         {
             return _outgoingChannel.Writer.WriteAsync(message);
+        }
+
+        public ValueTask<object> ReadQueuedToPublishAsync(CancellationToken cancellationToken)
+        {
+            return _outgoingChannel.Reader.ReadAsync(cancellationToken);
+        }
+
+        public ValueTask<bool> WaitToReadQueuedToPublishAsync(CancellationToken cancellationToken)
+        {
+            return _outgoingChannel.Reader.WaitToReadAsync(cancellationToken);
         }
     }
 }

@@ -1,19 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using KDR.Processors.Actions;
 
 namespace KDR.Processors.Receivers.Actions
 {
-  public class TracePipeAction : IReceivePipeAction
+  public class TracePipeAction : TracePipeActionBase<ReceivePipelineContext>, IReceivePipeAction
   {
-    public async Task ExecuteAsync(ReceivePipelineContext ctx, Func<Task> next)
-    {
-      var stopwatch = new Stopwatch();
-      stopwatch.Start();
-
-      await next();
-
-      stopwatch.Stop();
-    }
   }
 }

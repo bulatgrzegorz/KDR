@@ -15,47 +15,25 @@ namespace KDR.Processors.Receivers
 
         public PipelineInvoker(IReceivePipeline receivePipeline, IOutgoingPipeline outgoingPipeline)
         {
-            var receivePipelineActions = receivePipeline.Actions.ToArray();
+            _receivePipelineInvoke = ctx => BuildPipelineActionsChainAction(ctx, receivePipeline.Actions.ToArray());
+            _outgoingPipelineInvoke = ctx => BuildPipelineActionsChainAction(ctx, outgoingPipeline.Actions.ToArray());
+        }
 
-            Task ProcessIncoming(ReceivePipelineContext context)
+        private static Task BuildPipelineActionsChainAction<TContext>(TContext context, IPipeAction<TContext>[] pipeActions)
+        {
+            Task InvokerFunction(int index)
             {
-                Task InvokerFunction(int index)
+                if (index == pipeActions.Length)
                 {
-                    if (index == receivePipelineActions.Length)
-                    {
-                        return Task.CompletedTask;
-                    }
-
-                    Task InvokeNext() => InvokerFunction(index + 1);
-
-                    return receivePipelineActions[index].ExecuteAsync(context, InvokeNext);
+                    return Task.CompletedTask;
                 }
 
-                return InvokerFunction(0);
+                Task InvokeNext() => InvokerFunction(index + 1);
+
+                return pipeActions[index].ExecuteAsync(context, InvokeNext);
             }
 
-            _receivePipelineInvoke = ProcessIncoming;
-
-            var outgoingPipelineActions = outgoingPipeline.Actions.ToArray();
-
-            Task ProcessIncomingO(OutgoingPipelineContext context)
-            {
-                Task InvokerFunction(int index)
-                {
-                    if (index == receivePipelineActions.Length)
-                    {
-                        return Task.CompletedTask;
-                    }
-
-                    Task InvokeNext() => InvokerFunction(index + 1);
-
-                    return outgoingPipelineActions[index].ExecuteAsync(context, InvokeNext);
-                }
-
-                return InvokerFunction(0);
-            }
-
-            _outgoingPipelineInvoke = ProcessIncomingO;
+            return InvokerFunction(0);
         }
 
         public Task InvokeAsync(ReceivePipelineContext context)
