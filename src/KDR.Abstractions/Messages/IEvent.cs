@@ -1,6 +1,4 @@
-﻿namespace KDR.Abstractions.Messages
+namespace KDR.Abstractions.Messages
 {
-  public interface IEvent : IMessage
-  {
-  }
+    public interface IEvent : IMessage { }
 }

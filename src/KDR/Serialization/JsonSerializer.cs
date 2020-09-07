@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using KDR.Messages;
@@ -33,10 +33,10 @@ namespace KDR.Serialization
 
             //TODO: Powinno zostać wyciągnięte
             var headers = new Dictionary<string, string>(message.Headers)
-            {
-                [MessageHeaders.ContentType] = ContentTypes.JsonUtf8ContentType,
-                [MessageHeaders.EventType] = MessageTypeConverters.GetTypeName(message.Body.GetType())
-            };
+                {
+                    [MessageHeaders.ContentType] = ContentTypes.JsonUtf8ContentType, 
+                    [MessageHeaders.EventType] = MessageTypeConverters.GetTypeName(message.Body.GetType())
+                };
 
             return new TransportMessage(headers, bodyBytes);
         }

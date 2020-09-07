@@ -1,8 +1,6 @@
-﻿using KDR.Processors.Actions;
+using KDR.Processors.Actions;
 
 namespace KDR.Processors.Receivers.Actions
 {
-  public class TracePipeAction : TracePipeActionBase<ReceivePipelineContext>, IReceivePipeAction
-  {
-  }
+    public class TracePipeAction : TracePipeActionBase<ReceivePipelineContext>, IReceivePipeAction { }
 }

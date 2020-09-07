@@ -1,6 +1,4 @@
-﻿namespace KDR.Persistence.SqlServer
+namespace KDR.Persistence.SqlServer
 {
-  public class Class1
-  {
-  }
+    public class Class1 { }
 }

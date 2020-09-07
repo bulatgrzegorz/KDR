@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
 using System;
-using System.Transactions;
-using Microsoft.Extensions.DependencyInjection;
-using KDR.Transactions;
-using KDR.Processors.Receivers;
-using KDR.Processors.Outgoing;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Transactions;
 using KDR.Abstractions.Messages;
 using KDR.Persistence.Api;
 using KDR.Persistence.InMemory;
-using KDR.Transport.InMemory;
-using KDR.Transport.Api;
 using KDR.Processors;
+using KDR.Processors.Outgoing;
+using KDR.Processors.Receivers;
+using KDR.Transactions;
+using KDR.Transport.Api;
+using KDR.Transport.InMemory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace KDR.TestClient.FullInMemory
@@ -33,7 +33,7 @@ namespace KDR.TestClient.FullInMemory
 
             await pm.StartAsync();
 
-            using (var ts = new TransactionScope())
+            using(var ts = new TransactionScope())
             {
                 await eb.PublishEventAsync(new Event());
 
@@ -43,9 +43,13 @@ namespace KDR.TestClient.FullInMemory
             do
             {
                 var key = Console.ReadLine();
-                if(key == "p") 
+                if (key == "p")
                 {
                     await eb.PublishEventAsync(new Event());
+                }
+                else if (key == "d")
+                {
+                    await pm.DisposeAsync();
                 }
             } while (true);
         }

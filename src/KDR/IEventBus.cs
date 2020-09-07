@@ -6,8 +6,8 @@ namespace KDR
 {
     public interface IEventBus
     {
-         Task PublishEventAsync(IEvent @event);
+        Task PublishEventAsync(IEvent @event);
 
-         Task PublishEventAsync(IEvent @event, IDictionary<string, string> additionalHeaders);
+        Task PublishEventAsync(IEvent @event, IDictionary<string, string> additionalHeaders);
     }
 }

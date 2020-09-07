@@ -10,8 +10,8 @@ namespace KDR.Transport.Api
             Body = body;
         }
 
-        public IDictionary<string, string> Headers { get; }
+        public IDictionary<string, string> Headers { get; set; }
 
-        public byte[] Body { get; }
+        public byte[] Body { get; set; }
     }
 }

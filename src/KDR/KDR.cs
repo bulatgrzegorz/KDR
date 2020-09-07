@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using KDR.Persistence.Api;
 using KDR.Processors.Dispatchers;
 using KDR.Processors.Outgoing;
@@ -35,7 +35,6 @@ namespace KDR
 
             services.TryAddSingleton<IEventBus, EventBus>();
 
-
         }
 
         private static void RegisterDataStorage(IServiceCollection services)
@@ -52,16 +51,15 @@ namespace KDR
             services.TryAddSingleton<HandlerInvokerPipeAction>();
 
             services.TryAddSingleton<IReceivePipeline>(
-              sp => new ReceivePipeline(null)
+                sp => new ReceivePipeline(null)
                 .AddAction(sp.GetRequiredService<TracePipeAction>())
                 .AddAction(sp.GetRequiredService<SerializationPipeAction>())
                 .AddAction(sp.GetRequiredService<TransactionPipeAction>())
                 .AddAction(sp.GetRequiredService<PersistenceMessagePipeAction>())
                 .AddAction(sp.GetRequiredService<HandlerInvokerPipeAction>())
-                );
+            );
 
             services.TryAddSingleton<IPipelineInvoker, PipelineInvoker>();
-
 
             services.TryAddSingleton<IDispatcher, DefaultDispatcher>();
             services.TryAddSingleton<InMemorySendingDispatcher>();
@@ -69,10 +67,10 @@ namespace KDR
             services.TryAddSingleton<Processors.Outgoing.Actions.SerializationPipeAction>();
 
             services.TryAddSingleton<IOutgoingPipeline>(
-              sp => new OutgoingPipeline(null)
+                sp => new OutgoingPipeline(null)
                 .AddAction(sp.GetRequiredService<Processors.Outgoing.Actions.SerializationPipeAction>())
                 .AddAction(sp.GetRequiredService<Processors.Outgoing.Actions.PersistenceMessagePipeAction>())
-                 );
+            );
         }
 
         private static void RegisterSerializerModule(IServiceCollection services)

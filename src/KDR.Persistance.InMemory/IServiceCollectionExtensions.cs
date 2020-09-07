@@ -1,13 +1,13 @@
-﻿using KDR.Persistence.Api;
+using KDR.Persistence.Api;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KDR.Persistence.InMemory
 {
-  public static class IServiceCollectionExtensions
-  {
-    public static void AddServices(this IServiceCollection services)
+    public static class IServiceCollectionExtensions
     {
-      services.AddSingleton<IDataStorage, InMemoryDataStorage>();
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddSingleton<IDataStorage, InMemoryDataStorage>();
+        }
     }
-  }
 }

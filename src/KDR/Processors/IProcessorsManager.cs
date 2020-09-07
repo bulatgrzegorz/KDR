@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace KDR.Processors
 {
-  public interface IProcessorsManager
-  {
-    Task StartAsync();
+    public interface IProcessorsManager
+    {
+        Task StartAsync();
 
-    Task DisposeAsync();
-  }
+        Task DisposeAsync();
+    }
 }

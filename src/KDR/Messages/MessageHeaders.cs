@@ -1,9 +1,9 @@
-﻿namespace KDR.Messages
+namespace KDR.Messages
 {
-  public static class MessageHeaders
-  {
-    public const string EventType = "kdr-msg-event-type";
+    public static class MessageHeaders
+    {
+        public const string EventType = "kdr-msg-event-type";
 
-    public const string ContentType = "kdr-msg-content-type";
-  }
+        public const string ContentType = "kdr-msg-content-type";
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using KDR.Transport.Api;
 using KDR.Transport.Extensions;
 using KDR.Utilities;
@@ -37,7 +37,7 @@ namespace KDR.Serialization
                     //TODO: [LogTransportMessage]
                     var supportedContentTypes = typeof(ContentTypes).GetAllPublicConstantValues<string>();
                     throw new NotSupportedException(
-                      $"Content type: {contentType} has no supported serializer. Supported are: {string.Join(",", supportedContentTypes)}");
+                        $"Content type: {contentType} has no supported serializer. Supported are: {string.Join(",", supportedContentTypes)}");
             }
         }
     }

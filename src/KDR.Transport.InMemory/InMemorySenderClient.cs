@@ -19,13 +19,13 @@ namespace KDR.Transport.InMemory
             return Task.CompletedTask;
         }
 
-        public Task SendAsync(TransportMessage transportMessage, CancellationToken cancellationToken)
+        public Task<bool> SendAsync(TransportMessage transportMessage, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Got message to send!!!");
 
             MessagesStorage.Messages.Add(transportMessage);
 
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
     }
 }

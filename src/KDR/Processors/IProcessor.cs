@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace KDR.Processors
 {
-  public interface IProcessor
-  {
-    Task<bool> ProcessAsync(ProcessingContext context);
-  }
+    public interface IProcessor
+    {
+        Task<bool> ProcessAsync(ProcessingContext context);
+    }
 }

@@ -1,6 +1,4 @@
-﻿namespace KDR.Transport.Converters
+namespace KDR.Transport.Converters
 {
-  public class TransportMessageConverter
-  {
-  }
+    public class TransportMessageConverter { }
 }

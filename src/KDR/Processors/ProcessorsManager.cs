@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using KDR.Processors.Dispatchers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace KDR.Processors
 {
@@ -17,11 +18,13 @@ namespace KDR.Processors
         private bool _disposed;
 
         private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<ProcessorsManager> _logger;
 
-        public ProcessorsManager(IServiceProvider serviceProvider)
+        public ProcessorsManager(IServiceProvider serviceProvider, ILogger<ProcessorsManager> logger)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public Task StartAsync()
@@ -29,8 +32,8 @@ namespace KDR.Processors
             _processingContext = new ProcessingContext(_cancellationTokenSource.Token);
 
             var processors = GetProcessors(_serviceProvider)
-            .Select(x => new FaultTolerantInfiniteProcessor(x))
-            .Select(x => x.ProcessAsync(_processingContext));
+                .Select(x => new FaultTolerantInfiniteProcessor(x, _serviceProvider.GetRequiredService<ILogger<FaultTolerantInfiniteProcessor>>()))
+                .Select(x => x.ProcessAsync(_processingContext));
             _task = Task.WhenAll(processors);
 
             return Task.CompletedTask;
@@ -43,6 +46,8 @@ namespace KDR.Processors
 
         public Task DisposeAsync()
         {
+            _logger.LogInformation("Got dispose request...");
+
             if (_disposed)
             {
                 return Task.CompletedTask;

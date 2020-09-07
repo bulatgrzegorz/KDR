@@ -38,7 +38,7 @@ namespace KDR.Messages
         ////https://github.com/rebus-org/Rebus/blob/13da53596ccd89b6ca9fbcdf066f5de6a93df9d0/Rebus/Internals/Shims.cs
         private static string GetSimpleAssemblyQualifiedName(Type type)
         {
-            //TODO: Test on .net core
+            //TODO: Test on .net core and .net framework
             return BuildSimpleAssemblyQualifiedName(type, new StringBuilder()).ToString();
         }
 

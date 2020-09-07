@@ -24,7 +24,8 @@ namespace KDR.Processors.Outgoing.Actions
         {
             var message = ctx.Load<Message>();
 
-            ctx.Save(new DbMessage(){
+            ctx.Save(new DbMessage()
+            {
                 Content = JsonConvert.SerializeObject(message)
             });
 
