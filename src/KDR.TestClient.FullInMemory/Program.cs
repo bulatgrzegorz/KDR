@@ -57,6 +57,6 @@ namespace KDR.TestClient.FullInMemory
 
     public class Event : IEvent
     {
-
+        public Guid CorrelationId {get;}
     }
 }

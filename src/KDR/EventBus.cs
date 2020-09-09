@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using KDR.Abstractions.Messages;
 using KDR.Processors.Outgoing;
 using KDR.Processors.Receivers;
+using KDR.Messages;
 
 namespace KDR
 {
@@ -16,18 +17,23 @@ namespace KDR
             _pielineInvoker = pielineInvoker;
         }
 
-        public async Task PublishEventAsync(IEvent @event)
+        public Task PublishEventAsync(IEvent @event)
         {
-            var eventType = @event.GetType();
+            var message = new Message(@event, new Dictionary<string, string>());
 
             var ctx = new OutgoingPipelineContext();
-            ctx.Save(@event);
-            await _pielineInvoker.InvokeAsync(ctx);
+            ctx.Save(message);
+
+            return _pielineInvoker.InvokeAsync(ctx);
         }
 
         public Task PublishEventAsync(IEvent @event, IDictionary<string, string> additionalHeaders)
         {
-            throw new System.NotImplementedException();
+            var ctx = new OutgoingPipelineContext();
+            ctx.Save(@event);
+            ctx.Save<IDictionary<string, string>>(new Dictionary<string, string>());
+
+            return _pielineInvoker.InvokeAsync(ctx);
         }
     }
 }

@@ -48,11 +48,7 @@ namespace KDR.Serialization
 
             using(var memoryStream = new MemoryStream(message.Body))
             {
-                return new Message()
-                {
-                    Body = dataContractSerializer.ReadObject(memoryStream),
-                    Headers = new Dictionary<string, string>(message.Headers)
-                };
+                return new Message(dataContractSerializer.ReadObject(memoryStream), new Dictionary<string, string>(message.Headers));
             }
         }
     }

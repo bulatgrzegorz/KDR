@@ -48,11 +48,7 @@ namespace KDR.Serialization
 
             var bodyString = DefaultEncoding.GetString(message.Body);
 
-            return new Message()
-            {
-                Body = JsonConvert.DeserializeObject(bodyString, messageType),
-                Headers = new Dictionary<string, string>(message.Headers)
-            };
+            return new Message(JsonConvert.DeserializeObject(bodyString, messageType), new Dictionary<string, string>(message.Headers));
         }
     }
 }
