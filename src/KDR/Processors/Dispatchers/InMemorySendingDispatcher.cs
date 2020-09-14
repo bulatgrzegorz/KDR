@@ -30,23 +30,18 @@ namespace KDR.Processors.Dispatchers
                 return false;
             }
 
-            var message = await _dispatcher.ReadQueuedToPublishAsync(context.CancellationToken);
-            if (message == null)
-            {
-                //TODO: to się może wydarzyć? 
-                return true;
-            }
+            (Messages.Message message, Guid dbMessageId) = await _dispatcher.ReadQueuedToPublishAsync(context.CancellationToken);
             try
             {
                 //TODO: To można wyciągnąć do osobnej abstrakcji, będzie używane w conajmniej 2 miejscach.
-                var result = await _transportSenderClient.SendAsync(new TransportMessage(null, null), context.CancellationToken);
+                var result = await _transportSenderClient.SendAsync(new TransportMessage(message.Headers, PrepareBody(message.Body)), context.CancellationToken);
                 if (result)
                 {
-                    await _dataStorage.MarkMessageAsSendAsync(new DbMessage());
+                    await _dataStorage.MarkMessageAsSendAsync(dbMessageId);
                 }
                 else
                 {
-                    await _dataStorage.MarkMessageAsFailedAsync(new DbMessage());
+                    await _dataStorage.MarkMessageAsFailedAsync(dbMessageId);
                 }
             }
             catch (Exception ex)
@@ -56,6 +51,12 @@ namespace KDR.Processors.Dispatchers
             }
 
             return true;
+        }
+
+        //TODO: Jak to zrobić? Generalnie serializacja już zaszła podczas zapisu do bazy, więc nie trzeba by było wykonywać jej ponowanie
+        //wystarczy przejąć obiekt stworzony tam i przekaząć do publishera, może potrzebujemy obiektu jak Message ale przez wysyłką? 
+        private byte[] PrepareBody(object obj){
+            return new byte[0];
         }
     }
 }

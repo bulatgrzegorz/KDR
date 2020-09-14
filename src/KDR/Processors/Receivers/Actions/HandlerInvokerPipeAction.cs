@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using KDR.Abstractions.Handlers;
 using KDR.Abstractions.Messages;
 using KDR.Messages;
+using KDR.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KDR.Processors.Receivers.Actions
@@ -32,7 +33,7 @@ namespace KDR.Processors.Receivers.Actions
                 await handler.HandleAsync((IMessage)ctx.Load<Message>().Body);
             }
 
-            await next();
+            await FuncInvoker.Invoke(next);
         }
     }
 }

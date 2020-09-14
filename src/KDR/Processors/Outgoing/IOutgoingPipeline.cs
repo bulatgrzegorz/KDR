@@ -5,8 +5,8 @@ namespace KDR.Processors.Outgoing
     public interface IOutgoingPipeline
     {
         ICollection<IOutgoingPipeAction> Actions { get; }
-        //Command
-        //Performance
+        // Command
+        // Performance
         // tracing
         // delayed
         // ticket

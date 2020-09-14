@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -5,15 +6,21 @@ namespace KDR.Persistence.Api
 {
     public interface IDataStorage
     {
-        Task StoreMessageToSendAsync(DbMessage message);
+        /// <summary>
+        /// Store message to be send.
+        /// </summary>
+        /// <param name="Body">Body of message to send</param>
+        /// <param name="headers"Headers of message></param>
+        /// <returns>Database </returns>
+        Task<DbMessage> StoreMessageToSendAsync(object Body, IDictionary<string, string> headers);
 
-        Task MarkMessageAsSendAsync(DbMessage message);
+        Task MarkMessageAsSendAsync(Guid messageId);
 
-        Task MarkMessageAsFailedAsync(DbMessage message);
+        Task MarkMessageAsFailedAsync(Guid messageId);
 
         //Returns id of stored message. TODO: When null failed? 
         Task<int?> StoreReceivedMessageAsync(ReceivedDbMessage message);
 
-        Task < (IEnumerable<object> messages, bool gotMore) > GetMessagesToRetryAsync();
+        Task < (IEnumerable<DbMessage> messages, bool gotMore) > GetMessagesToRetryAsync();
     }
 }

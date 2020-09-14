@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using KDR.Messages;
 using KDR.Persistence.Api;
+using KDR.Utilities;
 
 namespace KDR.Processors.Receivers.Actions
 {
@@ -41,7 +42,7 @@ namespace KDR.Processors.Receivers.Actions
                 // }
             }
 
-            await next();
+            await FuncInvoker.Invoke(next);
 
             //coś jeszcze będzie potrzebne? Mógł nie mieć handlera
         }

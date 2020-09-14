@@ -4,7 +4,8 @@ namespace KDR.Persistence.Api
 {
     public class DbMessage
     {
-        public int Id { get; set; }
+        //TODO: przejdziemy chyba ostatecznie na long'a generowango jakimś snowflake id - lżej, szybciej i wydajniej
+        public Guid Id { get; set; }
 
         public string Content { get; set; }
 

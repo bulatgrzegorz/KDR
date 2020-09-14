@@ -5,6 +5,7 @@ using KDR.Abstractions.Messages;
 using KDR.Messages;
 using KDR.Persistence.Api;
 using KDR.Serialization;
+using KDR.Utilities;
 using Newtonsoft.Json;
 
 namespace KDR.Processors.Outgoing.Actions
@@ -20,7 +21,7 @@ namespace KDR.Processors.Outgoing.Actions
             _serializer = serialization.Create(ContentTypes.JsonUtf8ContentType);
         }
 
-        public async Task ExecuteAsync(OutgoingPipelineContext ctx, Func<Task> next)
+        public Task ExecuteAsync(OutgoingPipelineContext ctx, Func<Task> next)
         {
             var message = ctx.Load<Message>();
 
@@ -29,7 +30,7 @@ namespace KDR.Processors.Outgoing.Actions
                 Content = JsonConvert.SerializeObject(message)
             });
 
-            await next();
+            return FuncInvoker.Invoke(next);
         }
     }
 }

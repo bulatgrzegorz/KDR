@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using KDR.Utilities;
 using Microsoft.Extensions.Logging;
 
 namespace KDR.Processors.Actions
@@ -24,7 +25,7 @@ namespace KDR.Processors.Actions
 
             try
             {
-                await next();
+                await FuncInvoker.Invoke(next);
             }
             catch (Exception e)
             {

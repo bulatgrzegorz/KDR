@@ -19,11 +19,11 @@ namespace KDR.Processors.Outgoing.Actions
 
         public async Task ExecuteAsync(OutgoingPipelineContext ctx, Func<Task> next)
         {
-            var dbMessage = ctx.Load<DbMessage>();
+            var message = ctx.Load<Messages.Message>();
 
-            await _dataStorage.StoreMessageToSendAsync(dbMessage);
+            var dbMessage = await _dataStorage.StoreMessageToSendAsync(message.Body, message.Headers);
 
-            Action callDispatcher = () => _dispatcher.EnqueueToPublish(dbMessage);
+            Action callDispatcher = () => _dispatcher.EnqueueToPublish(message, dbMessage.Id);
 
             if(Transaction.Current != null)
             {

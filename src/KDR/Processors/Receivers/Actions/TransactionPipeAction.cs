@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Transactions;
+using KDR.Utilities;
 
 namespace KDR.Processors.Receivers.Actions
 {
@@ -12,7 +13,7 @@ namespace KDR.Processors.Receivers.Actions
                 TransactionScopeOption.Required,
                 TransactionScopeAsyncFlowOption.Enabled))
             {
-                await next();
+                await FuncInvoker.Invoke(next);
 
                 tran.Complete();
             }

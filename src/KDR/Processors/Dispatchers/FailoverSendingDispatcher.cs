@@ -26,11 +26,11 @@ namespace KDR.Processors.Dispatchers
                 var result = await _transportSenderClient.SendAsync(new TransportMessage(null, null), context.CancellationToken);
                 if (result)
                 {
-                    await _dataStorage.MarkMessageAsSendAsync(new DbMessage());
+                    await _dataStorage.MarkMessageAsSendAsync(messageToRetry.Id);
                 }
                 else
                 {
-                    await _dataStorage.MarkMessageAsFailedAsync(new DbMessage());
+                    await _dataStorage.MarkMessageAsFailedAsync(messageToRetry.Id);
                 }
 
             }

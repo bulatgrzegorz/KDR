@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using KDR.Messages;
 using KDR.Serialization;
 using KDR.Transport.Api;
+using KDR.Utilities;
 
 namespace KDR.Processors.Receivers.Actions
 {
@@ -22,7 +23,7 @@ namespace KDR.Processors.Receivers.Actions
             var serializer = _serializerFactory.Create(transportMessage);
             ctx.Save<Message>(await serializer.DeserializeAsync(transportMessage));
 
-            await next();
+            await FuncInvoker.Invoke(next);
         }
     }
 }
