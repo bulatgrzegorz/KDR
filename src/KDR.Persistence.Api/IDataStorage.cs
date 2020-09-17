@@ -12,7 +12,7 @@ namespace KDR.Persistence.Api
         /// <param name="Body">Body of message to send</param>
         /// <param name="headers"Headers of message></param>
         /// <returns>Database </returns>
-        Task<DbMessage> StoreMessageToSendAsync(object Body, IDictionary<string, string> headers);
+        Task<DbMessage> StoreMessageToSendAsync(object body, IDictionary<string, string> headers);
 
         Task MarkMessageAsSendAsync(Guid messageId);
 

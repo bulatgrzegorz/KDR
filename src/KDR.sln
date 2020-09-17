@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{DB29
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDR.Transport.AzureServiceBus", "KDR.Transport.AzureServiceBus\KDR.Transport.AzureServiceBus.csproj", "{F4AB4DCE-262D-497D-9AA0-148B1C0A40CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRD.TestClient1", "KRD.TestClient1\KRD.TestClient1.csproj", "{8EB037DA-0004-4CC0-B13B-FF120740C691}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRD.Transport.InMemory", "KRD.Transport.InMemory\KRD.Transport.InMemory.csproj", "{5FF6606D-1A7E-4695-97C6-9128E503BEB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRD.Transport.Api", "KRD.Transport.Api\KRD.Transport.Api.csproj", "{266FDE00-4C0A-44FA-8671-2E886BCF44C0}"
@@ -28,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDR.TestClient.FullInMemory", "KDR.TestClient.FullInMemory\KDR.TestClient.FullInMemory.csproj", "{F4F18ABF-CF29-4DCD-B1FD-2F665B57A4CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDR.Transport.InMemory", "KDR.Transport.InMemory\KDR.Transport.InMemory.csproj", "{E1539569-089B-4EDE-A33C-E23C647F8F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDR.Unit.Tests", "KDR.Unit.Tests\KDR.Unit.Tests.csproj", "{DE49C4AD-F8EF-437E-852F-BE6E8B51AD70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,6 @@ Global
 		{F4AB4DCE-262D-497D-9AA0-148B1C0A40CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4AB4DCE-262D-497D-9AA0-148B1C0A40CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4AB4DCE-262D-497D-9AA0-148B1C0A40CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EB037DA-0004-4CC0-B13B-FF120740C691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EB037DA-0004-4CC0-B13B-FF120740C691}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EB037DA-0004-4CC0-B13B-FF120740C691}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EB037DA-0004-4CC0-B13B-FF120740C691}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FF6606D-1A7E-4695-97C6-9128E503BEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FF6606D-1A7E-4695-97C6-9128E503BEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FF6606D-1A7E-4695-97C6-9128E503BEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,6 +79,10 @@ Global
 		{E1539569-089B-4EDE-A33C-E23C647F8F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1539569-089B-4EDE-A33C-E23C647F8F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1539569-089B-4EDE-A33C-E23C647F8F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE49C4AD-F8EF-437E-852F-BE6E8B51AD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE49C4AD-F8EF-437E-852F-BE6E8B51AD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE49C4AD-F8EF-437E-852F-BE6E8B51AD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE49C4AD-F8EF-437E-852F-BE6E8B51AD70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

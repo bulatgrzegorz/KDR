@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace KDR.Messages
@@ -17,9 +19,11 @@ namespace KDR.Messages
 
         public static string GetTypeName(Type bodyType)
         {
-            //TODO:
             if (!_typeNames.TryGetValue(bodyType, out var result))
             {
+                result = GetSimpleAssemblyQualifiedName(bodyType);
+                _typeNames.TryAdd(bodyType, result);
+                _nameTypes.TryAdd(result, bodyType);
             }
 
             return result;
@@ -27,9 +31,16 @@ namespace KDR.Messages
 
         public static Type GetNameType(string name)
         {
-            //TODO:
             if (!_nameTypes.TryGetValue(name, out var result))
-            {
+            { 
+                result = Type.GetType(name);
+                if(result == null)
+                {
+                    throw new ArgumentException($"Cannot construct type from type name: {name}", nameof(name));
+                }
+
+                _nameTypes.TryAdd(name, result);
+                _typeNames.TryAdd(result, name);
             }
 
             return result;

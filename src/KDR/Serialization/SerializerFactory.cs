@@ -9,11 +9,15 @@ namespace KDR.Serialization
     public class SerializerFactory : ISerializerFactory
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISerializer _jsonSerializer;
 
         public SerializerFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _jsonSerializer = _serviceProvider.GetRequiredService<JsonSerializer>();
         }
+
+        public ISerializer Default => _jsonSerializer;
 
         public ISerializer Create(TransportMessage transportMessage)
         {
@@ -27,7 +31,7 @@ namespace KDR.Serialization
             {
                 case ContentTypes.JsonContentType:
                 case ContentTypes.JsonUtf8ContentType:
-                    return _serviceProvider.GetRequiredService<JsonSerializer>();
+                    return _jsonSerializer;
 
                 case ContentTypes.TextContentType:
                 case ContentTypes.XmlContentType:

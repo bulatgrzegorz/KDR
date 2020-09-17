@@ -29,9 +29,10 @@ namespace KDR
 
         public Task PublishEventAsync(IEvent @event, IDictionary<string, string> additionalHeaders)
         {
+            var message = new Message(@event, additionalHeaders);
+            
             var ctx = new OutgoingPipelineContext();
-            ctx.Save(@event);
-            ctx.Save<IDictionary<string, string>>(new Dictionary<string, string>());
+            ctx.Save(message);
 
             return _pielineInvoker.InvokeAsync(ctx);
         }

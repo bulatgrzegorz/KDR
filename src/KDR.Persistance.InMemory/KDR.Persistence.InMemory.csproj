@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KDR.Persistence.Api\KDR.Persistence.Api.csproj" />
+    <ProjectReference Include="..\KDR\KDR.csproj" />
   </ItemGroup>
 
 </Project>

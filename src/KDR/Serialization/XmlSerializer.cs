@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -27,7 +28,7 @@ namespace KDR.Serialization
 
             var headers = new Dictionary<string, string>(message.Headers)
                 {
-                    [MessageHeaders.ContentType] = ContentTypes.JsonUtf8ContentType, 
+                    [MessageHeaders.ContentType] = ContentTypes.XmlContentType, 
                     [MessageHeaders.EventType] = MessageTypeConverters.GetTypeName(message.Body.GetType())
                 };
 
@@ -50,6 +51,11 @@ namespace KDR.Serialization
             {
                 return new Message(dataContractSerializer.ReadObject(memoryStream), new Dictionary<string, string>(message.Headers));
             }
+        }
+
+        public ValueTask<(string serializedBody, string serializedHeaders)> SerializeAsync(object body, IDictionary<string, string> headers = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

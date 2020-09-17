@@ -9,6 +9,8 @@ namespace KDR.Persistence.Api
 
         public string Content { get; set; }
 
+        public string Headers { get; set; }
+
         public DateTime Created { get; set; }
 
         public DateTime? ExpiresAt { get; set; }

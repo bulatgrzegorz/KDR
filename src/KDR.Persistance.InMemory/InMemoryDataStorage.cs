@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Collections.Concurrent;
@@ -5,23 +6,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KDR.Persistence.Api;
+using KDR.Serialization;
 
 namespace KDR.Persistence.InMemory
 {
     public class InMemoryDataStorage : IDataStorage
     {
+        private readonly ISerializerFactory _serialzationFactory;
+
         private readonly ConcurrentBag<DbMessage> _messagesToSent;
-        private static int _messagesToSendActualId = 0;
 
         private readonly ConcurrentBag<ReceivedDbMessage> _receivedMessages;
 
         private const int BatchSize = 5;
         private const int MaxRetriesCount = 3;
 
-        public InMemoryDataStorage()
+        public InMemoryDataStorage(ISerializerFactory serialzationFactory)
         {
             _messagesToSent = new ConcurrentBag<DbMessage>();
             _receivedMessages = new ConcurrentBag<ReceivedDbMessage>();
+            _serialzationFactory = serialzationFactory;
         }
 
         public Task < (IEnumerable<DbMessage> messages, bool gotMore) > GetMessagesToRetryAsync()
@@ -41,15 +45,20 @@ namespace KDR.Persistence.InMemory
             return Task.FromResult<int?>(1);
         }
 
-        public Task<DbMessage> StoreMessageToSendAsync(object Body, IDictionary<string, string> headers)
+        public async Task<DbMessage> StoreMessageToSendAsync(object body, IDictionary<string, string> headers)
         {
+            var content = await _serialzationFactory.Default.SerializeAsync(body, headers); 
+            
             var dbMessage = new DbMessage(){
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                Id = Guid.NewGuid(),
+                Content = content.serializedBody,
+                Headers = content.serializedHeaders
             };
 
             _messagesToSent.Add(dbMessage);
 
-            return Task.FromResult(dbMessage);
+            return dbMessage;
         }
 
         public Task MarkMessageAsSendAsync(Guid messageId)

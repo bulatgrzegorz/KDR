@@ -5,7 +5,7 @@ using KDR.Utilities;
 
 namespace KDR.Processors.Outgoing.Actions
 {
-    public class ProvideDestinationAddressPipeAction : IPipeAction<OutgoingPipelineContext>
+    public class ProvideDestinationAddressPipeAction : IOutgoingPipeAction
     {
         private readonly IDestinationAddressProvider _destinationAddressProvider;
 

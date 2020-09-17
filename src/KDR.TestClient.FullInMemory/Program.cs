@@ -22,7 +22,10 @@ namespace KDR.TestClient.FullInMemory
         {
             var sc = new ServiceCollection();
             sc.AddLogging(c => c.AddConsole());
+
             KDR.CreateEventBus(sc);
+            KDR.MapDestination<Event>("kolejka");
+            KDR.UseDefaultDestinationAddressProvider(sc);
             sc.AddSingleton<IDataStorage, InMemoryDataStorage>();
             sc.AddSingleton<ITransportSenderClient, InMemorySenderClient>();
             sc.AddSingleton<IProcessorsManager, ProcessorsManager>();
